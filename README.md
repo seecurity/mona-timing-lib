@@ -1,5 +1,7 @@
 # mona-timing-lib
 
+Tools for timing attacks.
+
 ## Preconditions
 
 - Have at least [Python 2.7](http://python.org/download/releases/2.7.2/)
