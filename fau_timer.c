@@ -109,8 +109,9 @@ void init(){
  * @param ip Kommandozeilenparameter
  * @param port_no
  * @param request
+ * @param length
 */
-void send_request(char* ip, int port_no, char* request){
+void send_request(char* ip, int port_no, char* request, size_t length){
 	
 	int sockfd, n, len;
 	struct hostent *server;
@@ -141,7 +142,7 @@ void send_request(char* ip, int port_no, char* request){
     	bzero(receive_buffer, BUFSIZE);
 
 	// Write all but the very last byte	
-	len = strlen(request);
+	len = length;
 	n = write(sockfd, request, len - 1);
 
 	// Start the timer...
@@ -250,7 +251,8 @@ void test(){
 	
 	init();
 	
-	send_request("131.188.31.217", 80, "HEAD / HTTP/1.0\r\n\r\n ");
+	char *req = "HEAD / HTTP/1.0\r\n\r\n ";
+	send_request("131.188.31.217", 80, req, strlen(req));
 	calculate_time();
 	speed = get_speed();
 	no_ticks = get_cpu_ticks();
