@@ -24,7 +24,8 @@ typedef unsigned long long ticks;
 ticks cpu_ticks;			// duration of request in cpu ticks
 unsigned long long nano_seconds;	// duration of request in nanoseconds
 unsigned long long cpu_speed;		// aprox cpu speed
-char *receive_buffer;			// buffer to save the response
+char* receive_buffer = NULL;		// buffer to save the response
+size_t len_read;			// amount of bytes read	
 
 /**
  * error
@@ -93,12 +94,10 @@ void init(){
 	cpu_speed = 0;
 	cpu_ticks = 0;
 	nano_seconds = 0;
-	if(receive_buffer != NULL){
-		bzero(receive_buffer, BUFSIZE);
-	}
-	else{
+	if(receive_buffer == NULL){
 		receive_buffer = malloc(BUFSIZE);
 	}
+	bzero(receive_buffer, BUFSIZE);
 }
 
 /** 
@@ -152,7 +151,7 @@ void send_request(char* ip, int port_no, char* request, size_t length){
 	if (n < 0){
 		error("ERROR writing to socket");
 	}
-	n = read(sockfd, receive_buffer, BUFSIZE - 1);
+	len_read = read(sockfd, receive_buffer, BUFSIZE - 1);
         // Stop the timer
 	end_ticks = get_ticks();
 	cpu_ticks = end_ticks - start_ticks;
@@ -197,6 +196,22 @@ void calculate_time(){
  * @return	the response of the last request
 */
 char* get_response(){
+	size_t len;
+	FILE* fp;
+
+	if(len_read == 0) {
+		return NULL;
+	}
+
+	fp = fopen("response.dat", "w");
+	if(fp == NULL) {
+		error("get_response(): could not open file.");
+	}
+	len = fwrite(receive_buffer, 1, len_read, fp);
+	if(len == 0) {
+		error("get_response(): could not write to file.");
+	}
+	fclose(fp);
 
 	return receive_buffer;
 }
@@ -237,6 +252,17 @@ unsigned long long get_speed(){
 	return cpu_speed;
 }
 
+/**
+ * get_len_read
+ *
+ * returns the amount of bytes read from socket.
+ *
+ * @return amount of bytes read
+ */
+int get_len_read() {
+	return len_read;
+}
+
 /** 
  * test
  *
@@ -247,7 +273,7 @@ void test(){
 	unsigned long long speed = 0;
 	ticks no_ticks = 0;
 	long long time = 0;
-	char* response = "";
+	char* response;
 	
 	init();
 	
