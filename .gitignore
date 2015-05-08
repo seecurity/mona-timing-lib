@@ -1,0 +1,6 @@
+_fau_timer.so
+fau_timer.o
+fau_timer.py
+fau_timer.pyc
+fau_timer_wrap.c
+fau_timer_wrap.o
