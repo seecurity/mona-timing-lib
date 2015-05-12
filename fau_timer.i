@@ -1,8 +1,6 @@
 /* File : fau_timer.i */
 %module fau_timer
-%include "carrays.i"
 %include "cdata.i"
-%array_class(char, charArray);
 %{
 typedef unsigned long long ticks;
 extern ticks cpu_ticks;
@@ -16,7 +14,7 @@ extern void init();
 extern void send_request(char* ip, int port_no, char* request);
 extern void convert_ticks_to_nanosecs(ticks no_ticks, long long speed);
 extern void calculate_time();
-extern char* get_response();
+extern void* get_response();
 extern ticks get_cpu_ticks();
 extern unsigned long long get_time();
 extern unsigned long long get_speed();
@@ -37,7 +35,7 @@ extern void init();
 extern void send_request(char* ip, int port_no, char* request);
 extern void convert_ticks_to_nanosecs(ticks no_ticks, long long speed);
 extern void calculate_time();
-extern char* get_response();
+extern void* get_response();
 extern ticks get_cpu_ticks();
 extern unsigned long long get_time();
 extern unsigned long long get_speed();

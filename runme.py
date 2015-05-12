@@ -44,8 +44,9 @@ for i in range(times):
         print "Request %i: Time: %s nanosec" % (i, time)
 
         # Get the response from the server
-        _response = fau_timer.get_response()
-        response = fau_timer.charArray.frompointer(_response)
+        response = fau_timer.cdata(fau_timer.get_response(), fau_timer.get_len_read())
+        for i in range(0, fau_timer.get_len_read()):
+                print "{:02x}".format(ord(response[i])),
 
         # Write to output file (number_of_request, secret, number_of_ticks)
         print "Writing time to output.csv"

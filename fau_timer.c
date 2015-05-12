@@ -24,7 +24,7 @@ typedef unsigned long long ticks;
 ticks cpu_ticks;			// duration of request in cpu ticks
 unsigned long long nano_seconds;	// duration of request in nanoseconds
 unsigned long long cpu_speed;		// aprox cpu speed
-char* receive_buffer = NULL;		// buffer to save the response
+void* receive_buffer = NULL;		// buffer to save the response
 size_t len_read;			// amount of bytes read	
 
 /**
@@ -195,7 +195,7 @@ void calculate_time(){
  * 
  * @return	the response of the last request
 */
-char* get_response(){
+void* get_response(){
 	size_t len;
 	FILE* fp;
 
