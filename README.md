@@ -50,5 +50,4 @@ the kernel parameters.
 [1]: http://www.hardwaresecrets.com/article/Everything-You-Need-to-Know-About-the-CPU-C-States-Power-Saving-Modes/611/1
 
 ## Bugs
-The ```get_response()``` function is not binary safe so it will return the content of the response up to the first NULL byte. This is related to SWIG. If you want to receive binary responses from Python, you can just read the file ```response.dat```, which always contains the most recent response.
-If you are a SWIG wizard who knows how to pass binary data from C land to Python land, please get in touch.
+Binary safeness of responses: the usage of the function ```get_response()``` is somehow contraintuitive. Look at ```runme.py``` to see how to use it.
