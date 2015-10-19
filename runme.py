@@ -10,7 +10,7 @@ request_b = "GET /timing/index.php?q=ADDENDUM HTTP/1.1\r\nHost: " + host + "\r\n
 print "Warmup: send 10 requests\r"
 for i in range(10):
         fau_timer.init()
-        fau_timer.send_request(host, port, request_a)
+        fau_timer.send_request(host, port, request_a, len(request_a))
 
 times = 100 # number of request send to the server
 
@@ -24,9 +24,9 @@ for i in range(times):
 
         # Send the request and measure the response time
         if i%2 == 0:
-                fau_timer.send_request(host, 80, request_a)
+                fau_timer.send_request(host, 80, request_a, len(request_a))
         else:
-                fau_timer.send_request(host, 80, request_b)
+                fau_timer.send_request(host, 80, request_b, len(request_b))
 
         # Now get the ticks and the time from fau_timer
         fau_timer.calculate_time()
